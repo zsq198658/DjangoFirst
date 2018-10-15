@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}修改个人信息{% endblock %}
+{% block content %}
+    <img alt="210*210" src="{{ user.image }}" class="img-circle"/>
+    <ul >姓名：{{ user.name }}</ul>
+    <ul >年龄：{{ user.age }}</ul>
+    <ul >性别：{{ user.sex }}</ul>
+    <ul >身份证号：{{ user.id_number }}</ul>
+
+
+
+
+{% endblock %}

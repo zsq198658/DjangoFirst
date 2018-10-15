@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}个人主页{% endblock %}
+{% block content %}
+<h1 align="right">
+    {{ username }}的主页
+</h1>
+<br>
+<br>
+博客列表：<br>
+<br>
+    {% for blog in blogs %}
+        <fieldset>
+    <legend ><a href="/blog/{{ blog.id }}">{{ blog.title }}</a></legend>
+        </fieldset>
+    {% empty %}<li>暂无博客文章</li>
+    {% endfor %}
+    	<div class="row clearfix">
+		<div class="col-md-12 column">
+			这里分页
+         </div>
+	</div>
+<br>
+    <button type="submit" class="btn btn-default"  onclick="window.open('/change_info/')">修改个人信息</button>
+    <button type="submit" class="btn btn-default" style="background-color: #b92c28;color: azure" onclick="window.open('/logout/')">登出</button>
+    <br>
+<br>
+<br>
+{% endblock %}

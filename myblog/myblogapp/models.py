@@ -1,0 +1,121 @@
+# coding:utf-8
+# Create your models here.
+
+from django.db import models
+from django.utils import timezone
+# from django.contrib.auth.hashers import make_password, check_password
+
+
+class User(models.Model):
+    username = models.CharField('用户名', max_length=20, primary_key=True, unique=True)
+    password = models.CharField('密码', max_length=200)
+    create_time = models.DateTimeField('创建日期', auto_now_add=True)
+    update_time = models.DateTimeField('密码最后修改日期', auto_now=True)
+
+    def __str__(self):
+        return self.username
+
+    def get_create_time(self):
+        return self.create_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    def get_update_time(self):
+        return self.update_time.strptime("%Y-%m-%d %H:%M:%S")
+
+#    def save(self):
+#        self.password = make_password(self.password)
+#       super(User, self).save()
+
+
+class UserInfo(models.Model):
+    username = models.OneToOneField('User', db_constraint=False)
+    SEX_CHOICES = (
+        (0, u'男'),
+        (1, u'女'),
+    )
+    nickname = models.CharField('昵称', max_length=30, primary_key=True, unique=True)
+    name = models.CharField('真实姓名', max_length=20,  blank=True, null=True)
+    b_day = models.DateField('出生日期', blank=True, null=True)
+    gender = models.BooleanField('性别', max_length=2, choices=SEX_CHOICES)
+    image = models.ImageField('头像', upload_to='./static/image/', blank=True, null=True,
+                              default='static/image/image.jpg')
+    address = models.CharField('地址', max_length=50, blank=True, null=True)
+    phone = models.CharField('电话', max_length=13, blank=True, null=True)
+    update_time = models.DateTimeField('最后修改日期', auto_now=True)
+    friends = models.ManyToManyField('UserInfo', verbose_name='朋友', blank=True, null=True)
+
+    def __str__(self):
+        return self.nickname
+
+    def get_update_time(self):
+        return self.update_time.strptime("%Y-%m-%d %H:%M:%S")
+
+
+class Article(models.Model):
+    title = models.CharField('标题', max_length=60)
+    author = models.ForeignKey('User', db_constraint=False)
+    num_of_com = models.IntegerField('评论数', default=0)
+    num_of_like = models.IntegerField('点赞数', default=0)
+    content = models.TextField('内容', max_length=10000)
+    category = models.ForeignKey('ArtCategory', db_constraint=False)
+    image = models.ImageField('图片', blank=True, default='static/image/Art_Image.jpg')
+    create_time = models.DateTimeField('创建日期', auto_now_add=True)
+    update_time = models.DateTimeField('最后修改日期', auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_create_time(self):
+        return self.create_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    def get_update_time(self):
+        return self.update_time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+
+class ArtCategory(models.Model):
+    name = models.CharField('类别名称', max_length=20, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Comment(models.Model):
+    com_user = models.ForeignKey('User', db_constraint=False)
+    com_time = models.DateTimeField('评论时间', auto_now=True)
+    com_text = models.CharField('评论内容', max_length=200)
+    num_of_com = models.IntegerField('评论数', default=0)
+    num_of_like = models.IntegerField('点赞数', default=0)
+
+    def __str__(self):
+        return self.com_text[:20]
+
+    def get_com_time(self):
+        return self.com_time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+class CommentArt(Comment):
+    com_obj = models.ForeignKey('Article', db_constraint=False)
+
+
+
+class CommentCom(Comment):
+    com_obj = models.ForeignKey('CommentArt', db_constraint=False)
+
+
+class Like(models.Model):
+    like_person = models.ForeignKey('User', db_constraint=False)
+
+    def __str__(self):
+        return self.id
+
+
+class LikeArt(Like):
+    like_obj = models.ForeignKey('Article', db_constraint=False)
+
+
+class LikeCom(Like):
+    like_obj = models.ForeignKey('Comment', db_constraint=False)
+
+
+
+

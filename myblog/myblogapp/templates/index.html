@@ -1,0 +1,59 @@
+
+{% extends 'base.html' %}
+{% block title %}Python-Web{% endblock %}
+{% block content %}
+    <!-- Post -->
+    {% for each_data in data_list %}
+
+								<article class="is-post is-post-excerpt">
+									<header>
+										<h2><a href="/blog_detailed/{{ each_data.blog_id }}">{{ each_data.blog_title }}</a></h2>
+										<span class="byline">{{ each_data.blog }}</span>
+									</header>
+									<div class="info">
+										
+<span class="date">
+<span class="month">{{ each_data.mon }}</span>
+<span class="day">{{ each_data.day }}</span>
+</span>								
+<ul class="stats">	
+<li><a href="#" class="link-icon24 link-icon24-1">{{each_data.num_of_com}}</a></li>
+<li><a href="#" class="link-icon24 link-icon24-2">{{each_data.num_of_like}}</a></li>
+										</ul>
+									</div>
+                                    <h3>作者：<a href="#" >{{ each_data.blog_author}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    类别：<a href="#">{{ each_data.blog_category }}</a></h3>
+									<a href="#"><img sizes="100*100" src="{{ each_data.blog_image }}" alt="" /></a>
+									<p>
+										{{ each_data.blog_body }}
+									</p>
+								</article>
+        {% empty %}<li>暂无博客文章</li>
+        {% endfor %}
+    <!-- Pager -->
+<div class="pager">
+        {% if data_list.has_previous %}
+        <a href="?page={{ data_list.previous_page_number }}" class="button previous">&laquo;上一页</a>
+	{% else %}
+        <li class="button previous">&laquo;上一页</li>
+        {% endif %}
+
+	<div class="pages">
+	{% if data_list.has_next %}
+        {{ data_list.number }}/{{ data_list.paginator.num_pages }}
+        </div>
+	<a href="?page={{ data_list.next_page_number }}" class="button next">下一页 &raquo;</a></li>
+        {% else %}
+	{{ data_list.number }}/{{ data_list.paginator.num_pages }}
+        </div>
+	<li class="button next">下一页 &raquo;</li>
+        {% endif %}
+</div>
+{% endblock %}
+
+
+{% block new%}
+	{% for new in new_list%}
+	<li><a href="/blog_detailed/{{new.id}}">{{new.title}}</a></li>
+	{%endfor%}
+{% endblock%}
