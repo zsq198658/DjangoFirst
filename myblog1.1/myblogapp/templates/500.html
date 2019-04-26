@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>500</title>
+</head>
+<body>
+自定义500处理
+<hr>
+网页找不到
+</body>
+</html>
+
+<script type="text/javascript">
+ function change_like(obj, content_type, object_id) {
+  // 判断obj中是否包含active的元素，用于判断当前状态是否为激活状态
+  var is_like = obj.getElementsByClassName('active').length == 0
+  $.ajax({
+   url: '/like_up/',
+   // 为了避免加入csrf_token令牌，所以使用GET请求
+   type: 'GET',
+   // 返回的数据用于创建一个点赞记录
+   data: {
+    content_type: content_type,
+    object_id: object_id,
+    is_like: is_like,
+   },
+   cache: false,
+   success: function (data) {
+    console.log(data);
+    if (data['status'] == 'SUCCESS'){
+     // 更新点赞状态
+     // 通过class找到对应的标签
+     var record = $(obj.getElementsByClassName('glyphicon'))
+     if (is_like){
+      record.addClass('active')
+     }
+     else {
+      record.removeClass('active')
+     }
+     // 更新点赞数量
+     var like_num = $(obj.getElementsByClassName('like_num'))
+     like_num.text('（' + data['like_num'] + '）')
+
+    }
+    else {
+     // 以弹窗的形式显示错误信息
+     alert(data['message'])
+    }
+   },
+   error: function (xhr) {
+    console.log(xhr)
+   }
+  });
+  return false;
+ };
+</script>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{{ Article.title }}{% endblock %}
+{% block content %}
+<br>
+<h2>{{ the_Article.title }}</h2>
+<hr>
+    {{ the_Article.content|linebreaks }}
+    <hr>
+{% endblock %}
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+	<li><a href="/article/{{art}}">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- New -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+	<br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}

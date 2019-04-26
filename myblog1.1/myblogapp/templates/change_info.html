@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}修改个人信息{% endblock %}
+{% block content %}
+<form id='the_userinfo'>
+    {{ the_userinfo.as_p }}
+    <input type="button" onclick="change_form.style.display='block';the_userinfo.style.display='none'" value="修改个人信息">
+</form>
+<form id='change_form' method='post' enctype="multipart/form-data" class="form-horizontal" style="display:none">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="button" value="提交">
+</form>
+{% endblock %}
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+<li><a href="/article/{{art}}">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- New -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+	<br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}

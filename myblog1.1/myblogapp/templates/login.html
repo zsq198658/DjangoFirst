@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}登录{% endblock %}
+
+<!-- Login -->
+{% block content %}
+<section class="is-registion">
+<h2 align="left">登&nbsp;&nbsp;录</h2>
+<hr>
+<form method='post' enctype="multipart/form-data" class="form-horizontal">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br><br>
+    <input type="submit" value="登录" class="btn btn-default" >
+</form>
+<hr>
+<input align="right" type="button" value="注册" class="btn btn-default" style="background-color: #b92c28;color: azure" onclick="window.location.href=('/login/')" >
+</section>
+{% endblock %}
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+	<li><a href="/article/{{art}}">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- New -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+	<br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}
