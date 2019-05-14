@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}修改个人信息{% endblock %}
+
+{% block dropdown %}
+    <div class="dropdown" style="position: fixed;z-index:99;right:1em;top:1em" >
+            <button class="dropbtn">菜单</button>
+            <div class="dropdown-content">
+                {% for each_drop in drop_list %}
+                    <a href="{{ each_drop.link }}">{{ each_drop.name }}</a>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<head>
+  {{ InfoForm.media }}
+</head>
+<body>
+<form method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ InfoForm.as_ul }}
+    <input type="submit" value="提交">
+</form>
+</body>
+{% endblock %}
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+<li><a href="/article/{{art}}/">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- New -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+	<br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}/">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}

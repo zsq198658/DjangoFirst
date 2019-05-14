@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}登出{% endblock %}
+{% block content %}
+登出成功<br>
+<br>
+<br>
+<br>
+<br>
+<a href='/'>返回主页</a>
+{% endblock %}
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+	<li><a href="/article/{{art}}/">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- New -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+	<br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}/">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}

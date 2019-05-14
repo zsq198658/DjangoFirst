@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-Hans" >
+<head>
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="/admin/css/login.css" />
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+<body class=" login"
+  data-admin-utc-offset="28800">
+<!-- Container -->
+<div id="container">
+    <!-- Content -->
+    <div id="content" class="colM">
+        <div id="content-main">
+            <form method='post' class="form-horizontal">
+                {% csrf_token %}
+                <div class="form-row">
+                <label class="required" for="id_username">用户名:</label>
+                <input type="text" name="username" autofocus required id="id_username" maxlength="254" />
+                </div>
+              <div class="form-row">
+                <label class="required" for="id_password1">密码:</label>
+                <input type="password" name="password1" required id="id_password1" />
+              </div>
+              <div class="form-row">
+                <label class="required" for="id_password2">请再次输入密码:</label>
+                <input type="password" name="password2" required id="id_password2" />
+              </div>
+                <br><br>
+                <input type="submit" value="注册" class="btn btn-default" >
+                <input type="button" value="已有账号登录" class="btn btn-default" style="background-color: #b92c28;color: azure" onclick="window.location.href=('/login/')" >
+            </form>
+        </div>
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

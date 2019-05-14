@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}个人主页{% endblock %}
+{% block dropdown %}
+    <div class="dropdown" style="position: fixed;z-index:99;right:1em;top:1em" >
+            <button class="dropbtn">菜单</button>
+            <div class="dropdown-content">
+                {% for each_drop in drop_list %}
+                    <a href="{{ each_drop.link }}">{{ each_drop.name }}</a>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}
+{% block content %}
+<h1 align="left">
+    {{ username }}的主页
+</h1>
+<br>
+<br>
+博客列表：<br>
+<br>
+    {% for blog in blog_list %}
+        <fieldset>
+            <legend>
+                <a href="/blog_detailed/{{ blog.id }}/">{{ blog.title }}</a>
+            </legend>
+        </fieldset>
+    {% empty %}
+        <li>暂无博客文章</li>
+    {% endfor %}
+
+<!-- Pager -->
+{% if blog_list %}
+	<div class="pager">
+	{% if data_list.has_previous %}
+		<a href="?page={{ data_list.previous_page_number }}" class="button previous">上一页</a>
+	{% else %}
+		<a class="button previous">上一页</a>
+	{% endif %}
+	{#  disabled是当你的按钮不满足的时候不可以点击了#}
+
+	{% for i in pageRange %}
+		{% if current_num == i %}
+			<a class="active">{{ i }}</a>
+		{% else %}
+			<a href="?page={{ i }}">{{ i }}</a>
+		{% endif %}
+	{% endfor %}
+	{% if data_list.has_next %}
+		<a href="?page={{ data_list.next_page_number }}" class="button next">下一页</a>
+	{% else %}
+		<a class="button next">下一页</a>
+	{% endif %}
+	</div>
+{% endif %}
+{% endblock %}
+
+<br>
+    <button type="submit" class="btn btn-default"  onclick="window.open('/change_info/')">修改个人信息</button>
+    <button type="submit" class="btn btn-default" style="background-color: #b92c28;color: azure" onclick="window.open('/logout/')">登出</button>
+    <br>
+<br>
+<br>
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+	<li><a href="/article/{{art}}/">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- new -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+    <br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}/">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}

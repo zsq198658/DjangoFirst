@@ -1,0 +1,89 @@
+
+{% extends 'base.html' %}
+{% block title %}Python-Web{% endblock %}
+{% block dropdown %}
+    <div class="dropdown" style="position: fixed;z-index:99;right:1em;top:1em" >
+            <button class="dropbtn">菜单</button>
+            <div class="dropdown-content">
+                {% for each_drop in drop_list %}
+                    <a href="{{ each_drop.link }}">{{ each_drop.name }}</a>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+    <!-- Post -->
+{% for each_data in data_list %}
+<article class="is-post is-post-excerpt">
+	<header>
+		<h2><a href="/blog_detailed/{{ each_data.blog_id }}/">{{ each_data.blog_title }}</a></h2>
+		<span class="byline">{{ each_data.blog }}</span>
+	<div class="info">
+		<span class="date"></span>
+		<span class="month">{{ each_data.mon }}</span>
+		<span class="day">{{ each_data.day }}</span>
+			<ul class="stats">
+				<li><a href="#" class="link-icon24 link-icon24-1">{{each_data.num_of_com}}</a></li>
+				<li><a href="#" class="link-icon24 link-icon24-2">{{each_data.num_of_like}}</a></li>
+			</ul>
+	</div>
+	<h1>作者：<a href="#">{{ each_data.blog_author }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		类别：<a href="#">{{ each_data.blog_category }}</a>
+		<div align="left">浏览量：{{ each_data.num_of_view }}</div>
+	</h1>
+	<a href="/blog_detailed/{{ each_data.blog_id }}/"><img sizes="100*100" src="{% static each_data.blog_image %}" alt="" /></a>
+	</header>
+	<p>{{ each_data.blog_body|linebreaks }}</p>
+</article>
+{% empty %}
+<li>暂无博客文章</li>
+{% endfor %}
+
+<!-- Pager -->
+{% if data_list %}
+	<div class="pager">
+	{% if data_list.has_previous %}
+		<a href="?page={{ data_list.previous_page_number }}" class="button previous">上一页</a>
+	{% else %}
+		<a class="button previous">上一页</a>
+	{% endif %}
+	{#  disabled是当你的按钮不满足的时候不可以点击了#}
+
+	{% for i in pageRange %}
+		{% if current_num == i %}
+			<a class="active">{{ i }}</a>
+		{% else %}
+			<a href="?page={{ i }}">{{ i }}</a>
+		{% endif %}
+	{% endfor %}
+	{% if data_list.has_next %}
+		<a href="?page={{ data_list.next_page_number }}" class="button next">下一页</a>
+	{% else %}
+		<a class="button next">下一页</a>
+	{% endif %}
+	</div>
+{% endif %}
+
+{% endblock %}
+
+<!-- Art -->
+{% block artcategory %}
+{% for art in art_list%}
+	<li><a href="/article/{{art}}/">{{art}}</a></li>
+{% endfor %}
+{% endblock %}
+
+<!-- New -->
+{% block new %}
+<section class="is-recent-posts">
+	<h2>最新更新</h2>
+	<br>
+	<ul>
+	{% for new in new_list %}
+		<li><a href="/blog_detailed/{{ new.id }}/">{{ new.title }}</a></li>
+	{% endfor %}
+	</ul>
+</section>
+{% endblock %}
